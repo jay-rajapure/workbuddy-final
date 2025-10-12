@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 public class Worker extends Users {
 
     private int experienceYears;
-    private int workCategory;
+    private String workCategory;
     private  String description;
 
     public int getExperienceYears() {
@@ -26,11 +26,11 @@ public class Worker extends Users {
         this.description = description;
     }
 
-    public int getWorkCategory() {
+    public String getWorkCategory() {
         return workCategory;
     }
 
-    public void setWorkCategory(int workCategory) {
+    public void setWorkCategory(String workCategory) {
         this.workCategory = workCategory;
     }
 }
