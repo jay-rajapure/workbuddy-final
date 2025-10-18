@@ -24,6 +24,7 @@ public class UserSignInTest {
         customer.setName("jay");
         customer.setSurName("rajapure");
         customer.setEmail("jayrajapure1001@gmail.com");
+        customer.setPassword("gagaguga");
         customer.setRole(Role.CUSTOMER);
 
         Worker worker = new Worker();
@@ -41,7 +42,14 @@ public class UserSignInTest {
 
     }
     @Test
-    void  testWorkerSignIn(){
+    void  testCustomerSignIn(){
+        Customer customer = new Customer();
+        customer.setName("jay");
+        customer.setSurName("rajapure");
+        customer.setEmail("jayrajapure1001@gmail.com");
+        customer.setPassword("gagaguga");
+        customer.setRole(Role.CUSTOMER);
+
 
 
     }

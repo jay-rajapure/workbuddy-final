@@ -1,5 +1,6 @@
 package com.byteMinds.jay.workbuddy2.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,12 +8,34 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    @Column(nullable = false)
     String title;
     String description;
     byte[] image;
     @ManyToOne( )
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     Users user;
+    @Column(precision = 2)
+    double priceStart;
+    @Column(precision = 2)
+    double priceEnd;
+
+    public double getPriceStart() {
+        return priceStart;
+    }
+
+    public void setPriceStart(double priceStart) {
+        this.priceStart = priceStart;
+    }
+
+    public double getPriceEnd() {
+        return priceEnd;
+    }
+
+    public void setPriceEnd(double priceEnd) {
+        this.priceEnd = priceEnd;
+    }
 
     public Long getId() {
         return id;
