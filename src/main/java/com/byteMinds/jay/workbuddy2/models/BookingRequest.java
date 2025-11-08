@@ -9,6 +9,11 @@ public class BookingRequest extends Notification {
     @Enumerated(EnumType.STRING)
     private  PriceNegotiation priceNegotiation;
 
+
+
+
+
+
     public PriceNegotiation getPriceNegotiation() {
         return priceNegotiation;
     }

@@ -4,7 +4,6 @@ import com.byteMinds.jay.workbuddy2.models.Customer;
 import com.byteMinds.jay.workbuddy2.models.Role;
 import com.byteMinds.jay.workbuddy2.models.Worker;
 import com.byteMinds.jay.workbuddy2.repositories.CustomerRepository;
-import com.byteMinds.jay.workbuddy2.repositories.WorkerRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

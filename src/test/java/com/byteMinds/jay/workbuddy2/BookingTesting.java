@@ -4,13 +4,10 @@ import com.byteMinds.jay.workbuddy2.models.*;
 import com.byteMinds.jay.workbuddy2.repositories.BookingRepository;
 import com.byteMinds.jay.workbuddy2.repositories.CustomerRepository;
 import com.byteMinds.jay.workbuddy2.repositories.PostRepository;
-import com.byteMinds.jay.workbuddy2.repositories.WorkerRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 @Transactional

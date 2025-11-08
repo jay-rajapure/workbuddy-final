@@ -30,7 +30,7 @@ public class Worker extends Users {
         return workCategory;
     }
 
-    public void setWorkCategory(String workCategory) {
+    public void setWorkCategory(String workCategory ) {
         this.workCategory = workCategory;
     }
 }

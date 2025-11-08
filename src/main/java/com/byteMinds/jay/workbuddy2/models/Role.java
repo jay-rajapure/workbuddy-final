@@ -2,6 +2,6 @@ package com.byteMinds.jay.workbuddy2.models;
 
 public enum Role {
     CUSTOMER,
-    WOKRER,
+    WORKER,
     ADMIN
 }

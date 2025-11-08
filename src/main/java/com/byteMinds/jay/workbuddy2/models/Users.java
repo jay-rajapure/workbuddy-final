@@ -27,6 +27,8 @@ public abstract class Users {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private  Role role;
+    @Column(nullable = true,columnDefinition = "LONGBLOB")
+    @Lob
     byte[] profilePicture;
     @CreationTimestamp
     @Column(updatable = false)
