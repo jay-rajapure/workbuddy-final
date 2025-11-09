@@ -1,5 +1,6 @@
 package com.byteMinds.jay.workbuddy2.controllers;
 
+import com.byteMinds.jay.workbuddy2.Dto.WorkerResponse;
 import com.byteMinds.jay.workbuddy2.models.Customer;
 import com.byteMinds.jay.workbuddy2.models.Users;
 import com.byteMinds.jay.workbuddy2.models.Worker;
@@ -22,15 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class AuthControlltroller {
    @Autowired
     WorkerRepository workerRepository;
-
    @Autowired
     CustomerRepository customerRepository;
 
-
-
-
     @PostMapping(value = "/signup/worker",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Users> createWorker(@RequestPart("worker") String workerJSON,
+    public ResponseEntity<WorkerResponse> createWorker(@RequestPart("worker") String workerJSON,
                                               @RequestPart(value = "profilePicture") MultipartFile file) throws Exception
     {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -44,8 +41,19 @@ public class AuthControlltroller {
         worker.setProfilePicture(file.getBytes());
 
         Worker createdWorker  = workerRepository.save(worker);
+        WorkerResponse workerResponse = new WorkerResponse(
+                worker.getName(),
+                worker.getSurName(),
+                worker.getEmail(),
+                worker.getRole(),
+                worker.getProfilePicture(),
+                worker.getCreatedAt(),
+                worker.getExperienceYears(),
+                worker.getWorkCategory(),
+                worker.getDescription()
+        );
 
-        return  ResponseEntity.status(HttpStatus.CREATED).body(createdWorker);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(workerResponse);
 
     }
 
