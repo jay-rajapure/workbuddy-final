@@ -1,11 +1,13 @@
 package com.byteMinds.jay.workbuddy2.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 
 @Entity
-public class Worker extends Users {
-
+public class Worker {
+    @Id
+    Long id;
     private int experienceYears;
     private String workCategory;
     private  String description;

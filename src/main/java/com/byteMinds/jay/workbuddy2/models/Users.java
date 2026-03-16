@@ -6,13 +6,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="users",
         uniqueConstraints = {
         @UniqueConstraint(name="unique_email",columnNames = {"email"})
         }
 )
-public abstract class Users {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;

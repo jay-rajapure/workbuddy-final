@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
 
-    public  Post findByUser_id(Long id);
+    /*public  Post findByUser_id(Long id);*/
 }

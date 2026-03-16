@@ -13,9 +13,9 @@ public class Post {
     String description;
     byte[] image;
     @ManyToOne( )
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "customer_id")
     @JsonIgnore
-    Users user;
+    Customer customer ;
     @Column(precision = 2)
     double priceStart;
     @Column(precision = 2)
@@ -69,11 +69,11 @@ public class Post {
         this.image = image;
     }
 
-    public Users getUser() {
-        return user;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setUser(Users user) {
-        this.user = user;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

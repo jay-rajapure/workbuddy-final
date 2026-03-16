@@ -1,10 +1,10 @@
-package com.byteMinds.jay.workbuddy2.Dto;
+package com.byteMinds.jay.workbuddy2.Dto.response;
 
 import com.byteMinds.jay.workbuddy2.models.Role;
 
 import java.time.LocalDate;
 
-public class WorkerResponse extends UsersDto{
+public class WorkerResponse extends UsersResponse {
     private int experienceYears;
     private String workCategory;
     private  String description;

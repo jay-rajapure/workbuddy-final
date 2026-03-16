@@ -1,11 +1,11 @@
-package com.byteMinds.jay.workbuddy2.Dto;
+package com.byteMinds.jay.workbuddy2.Dto.response;
 
 import com.byteMinds.jay.workbuddy2.models.Role;
 
 import java.time.LocalDate;
 
 
-public class UsersDto {
+public class UsersResponse {
     protected String name;
     protected String surName;
     protected String email;
@@ -13,8 +13,8 @@ public class UsersDto {
     protected byte[] profilePicture;
     protected LocalDate createdAt;
 
-    public UsersDto(String name,String surName,String email,
-                    Role role,byte[] profilePicture,LocalDate createdAt){
+    public UsersResponse(String name, String surName, String email,
+                         Role role, byte[] profilePicture, LocalDate createdAt){
         this.name=name;
         this.surName = surName;
         this.email=email;
