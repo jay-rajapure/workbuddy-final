@@ -4,6 +4,7 @@ import com.byteMinds.jay.workbuddy2.Dto.request.LoginRequest;
 import com.byteMinds.jay.workbuddy2.Dto.response.AuthResponse;
 import com.byteMinds.jay.workbuddy2.Dto.response.UsersResponse;
 import com.byteMinds.jay.workbuddy2.Dto.response.WorkerResponse;
+import com.byteMinds.jay.workbuddy2.Services.UserService;
 import com.byteMinds.jay.workbuddy2.configs.JwtProvider;
 import com.byteMinds.jay.workbuddy2.models.Role;
 import com.byteMinds.jay.workbuddy2.models.Users;
@@ -16,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +43,10 @@ public class AuthControlltroller {
     private  PasswordEncoder passwordEncoder;
    @Autowired
    private JwtProvider jwtProvider;
+   @Autowired
+    UserService userService;
+   @Autowired
+   AuthenticationManager authenticationManager;
 
 
     @PostMapping(value = "/signup",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -89,11 +97,32 @@ public class AuthControlltroller {
 
     }
 
-    @PostMapping("/signin/user")
-    public  ResponseEntity<AuthResponse > signIn(@RequestBody LoginRequest loginRequest)
+    @PostMapping("/signin")
+    public  ResponseEntity<AuthResponse > signIn(@RequestBody LoginRequest loginRequest
+                                                  )
     {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
+
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email,password)
+        ) ;
+        /* List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role.toString()));
+        Authentication authentication= new UsernamePasswordAuthenticationToken(email,password,authorities);
+         SecurityContextHolder.getContext().setAuthentication(authentication);  */
+
+
+        UserDetails userDetails = userService.loadUserByUsername(email);
+        if (userDetails == null) throw  new UsernameNotFoundException("User not found");
+
+        String jwtToken = jwtProvider.generateToken(authentication);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(new AuthResponse("User created successfully",jwtToken));
+
+
+
 
 
 
