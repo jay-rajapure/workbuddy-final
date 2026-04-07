@@ -1,15 +1,15 @@
 package com.byteMinds.jay.workbuddy2.Dto.response;
 
-public class AuthResponse {
+public class SimpleResponse {
     private  String message;
     private  String jwt;
 
-    public  AuthResponse(String message, String jwt)
+    public SimpleResponse(String message, String jwt)
     {
       this.message= message;
       this.jwt= jwt;
     }
-   public  AuthResponse()
+   public SimpleResponse()
    {
 
    }

@@ -1,7 +1,9 @@
 package com.byteMinds.jay.workbuddy2.Services;
 
+import com.byteMinds.jay.workbuddy2.configs.JwtProvider;
 import com.byteMinds.jay.workbuddy2.models.Users;
 import com.byteMinds.jay.workbuddy2.repositories.UsersRepository;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +19,11 @@ import java.util.List;
 public class UserService implements UserDetailsService {
 
    private  final UsersRepository usersRepository;
-   public  UserService(UsersRepository usersRepository)
+   private final JwtProvider jwtProvider;
+   public  UserService(UsersRepository usersRepository, JwtProvider jwtProvider)
    {
-    this.usersRepository = usersRepository;
+       this.usersRepository = usersRepository;
+       this.jwtProvider = jwtProvider;
    }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -44,6 +48,16 @@ public class UserService implements UserDetailsService {
             }
         };
 
+
+    }
+    public Users findUserByJwt(String jwt)
+    {
+        String email=  jwtProvider.getEmailFromJwtToken(jwt);
+        Users user = usersRepository.findByEmail(email);
+
+
+        if(user==null) throw new UsernameNotFoundException("User not found by the email");
+        return  user;
 
     }
 

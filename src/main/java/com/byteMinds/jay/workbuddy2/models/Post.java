@@ -60,7 +60,6 @@ public class Post {
     public void setDescription(String description) {
         this.description = description;
     }
-
     public byte[] getImage() {
         return image;
     }
@@ -69,8 +68,8 @@ public class Post {
         this.image = image;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Customer getCustomer(Customer customer) {
+        return this.customer;
     }
 
     public void setCustomer(Customer customer) {

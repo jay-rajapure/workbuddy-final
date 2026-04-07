@@ -1,17 +1,16 @@
 package com.byteMinds.jay.workbuddy2.controllers;
 
 import com.byteMinds.jay.workbuddy2.Dto.request.LoginRequest;
-import com.byteMinds.jay.workbuddy2.Dto.response.AuthResponse;
+import com.byteMinds.jay.workbuddy2.Dto.response.SimpleResponse;
 import com.byteMinds.jay.workbuddy2.Dto.response.UsersResponse;
-import com.byteMinds.jay.workbuddy2.Dto.response.WorkerResponse;
 import com.byteMinds.jay.workbuddy2.Services.UserService;
 import com.byteMinds.jay.workbuddy2.configs.JwtProvider;
+import com.byteMinds.jay.workbuddy2.models.Customer;
+import com.byteMinds.jay.workbuddy2.models.Post;
 import com.byteMinds.jay.workbuddy2.models.Role;
 import com.byteMinds.jay.workbuddy2.models.Users;
-import com.byteMinds.jay.workbuddy2.models.Worker;
 import com.byteMinds.jay.workbuddy2.repositories.CustomerRepository;
 import com.byteMinds.jay.workbuddy2.repositories.UsersRepository;
-import com.byteMinds.jay.workbuddy2.repositories.WorkerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,9 +48,10 @@ public class AuthControlltroller {
    AuthenticationManager authenticationManager;
 
 
+
     @PostMapping(value = "/signup",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<AuthResponse> createWorker(@RequestPart("user") String userJSON,
-                                              @RequestPart(value = "profilePicture") MultipartFile file) throws Exception
+    public ResponseEntity<SimpleResponse> createWorker(@RequestPart("user") String userJSON,
+                                                       @RequestPart(value = "profilePicture") MultipartFile file) throws Exception
     {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -75,6 +75,14 @@ public class AuthControlltroller {
         List<GrantedAuthority>  authorities =new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.toString()));
 
+        if(authorities.getFirst().toString().equals(Role.CUSTOMER.toString()))
+        {
+            Customer customer= new Customer();
+            customer.setUser(createdUser);
+            Customer savedCustomer = customerRepository.save(customer);
+
+
+        }
         Authentication authentication = new UsernamePasswordAuthenticationToken(email,password,authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -89,7 +97,7 @@ public class AuthControlltroller {
                 user.getCreatedAt()
         );
 
-        AuthResponse  authResponse = new AuthResponse();
+        SimpleResponse authResponse = new SimpleResponse();
         authResponse.setJwt(token);
         authResponse.setMessage("successfully created user");
 
@@ -98,7 +106,7 @@ public class AuthControlltroller {
     }
 
     @PostMapping("/signin")
-    public  ResponseEntity<AuthResponse > signIn(@RequestBody LoginRequest loginRequest
+    public  ResponseEntity<SimpleResponse> signIn(@RequestBody LoginRequest loginRequest
                                                   )
     {
         String email = loginRequest.getEmail();
@@ -119,7 +127,7 @@ public class AuthControlltroller {
 
         String jwtToken = jwtProvider.generateToken(authentication);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(new AuthResponse("User created successfully",jwtToken));
+        return ResponseEntity.status(HttpStatus.FOUND).body(new SimpleResponse("User created successfully",jwtToken));
 
 
 

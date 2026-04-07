@@ -2,6 +2,7 @@ package com.byteMinds.jay.workbuddy2.configs;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -43,7 +44,8 @@ public class JwtTokenValidator  extends OncePerRequestFilter {
         {
             jwt = jwt.substring(7);
             try{
-                SecretKey secretKey = Keys.hmacShaKeyFor(jwtConstant.HEADER.getBytes());
+
+                SecretKey secretKey = Keys.hmacShaKeyFor(jwtConstant.SECRET_KEY.getBytes());
                 Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(jwt).getBody();
 
                 String email = String.valueOf(claims.get("email"));
