@@ -1,16 +1,22 @@
 package com.byteMinds.jay.workbuddy2.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 
 @Entity
 public class Worker {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     private int experienceYears;
     private String workCategory;
     private  String description;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name= "user_id")
+    Users user;
 
     public int getExperienceYears() {
         return experienceYears;
@@ -35,4 +41,13 @@ public class Worker {
     public void setWorkCategory(String workCategory ) {
         this.workCategory = workCategory;
     }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
 }

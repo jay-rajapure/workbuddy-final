@@ -25,6 +25,7 @@ public class AppConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
+        System.out.println("inside  securityfilterchain");
         http.sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth->auth.requestMatchers("/api/worker/**").hasRole("WORKER")
                         .requestMatchers("/api/**").authenticated()

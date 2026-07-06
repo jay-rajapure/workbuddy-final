@@ -4,8 +4,10 @@ import com.byteMinds.jay.workbuddy2.configs.JwtProvider;
 import com.byteMinds.jay.workbuddy2.models.Users;
 import com.byteMinds.jay.workbuddy2.repositories.UsersRepository;
 import io.jsonwebtoken.UnsupportedJwtException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -58,6 +61,23 @@ public class UserService implements UserDetailsService {
 
         if(user==null) throw new UsernameNotFoundException("User not found by the email");
         return  user;
+
+    }
+    public Users getCurrentUser()
+    {
+        String email = SecurityContextHolder.
+                getContext()
+                .getAuthentication()
+                .getName();
+
+        Users user = usersRepository.findByEmail(email);
+        if(user == null ) throw new EntityNotFoundException("user not found");
+        return user;
+
+    }
+
+    public void logout(String jwt)
+    {
 
     }
 
