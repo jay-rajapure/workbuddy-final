@@ -2,6 +2,8 @@ package com.byteMinds.jay.workbuddy2.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 
 @Entity
@@ -9,6 +11,7 @@ public class Worker {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    private int  stars;
     private int experienceYears;
     private String workCategory;
     private  String description;
