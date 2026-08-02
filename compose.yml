@@ -1,0 +1,27 @@
+services:
+
+  mysql:
+    image: mysql:8.0.46
+    environment:
+      MYSQL_ROOT_PASSWORD: 1Jay@pune
+      MYSQL_DATABASE: workbuddy
+    ports:
+      #can have different ports
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:8.10.0
+    ports:
+      - "6379:6379"
+
+
+volumes:
+  mysql_data:
+
+
+
+
+

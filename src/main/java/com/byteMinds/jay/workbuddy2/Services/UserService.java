@@ -63,7 +63,7 @@ public class UserService implements UserDetailsService {
         return  user;
 
     }
-    public Users getCurrentUser()
+    public  Users getCurrentUser()
     {
         String email = SecurityContextHolder.
                 getContext()
@@ -75,6 +75,7 @@ public class UserService implements UserDetailsService {
         return user;
 
     }
+
 
     public void logout(String jwt)
     {

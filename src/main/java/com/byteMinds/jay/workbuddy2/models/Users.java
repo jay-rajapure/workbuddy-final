@@ -1,11 +1,21 @@
 package com.byteMinds.jay.workbuddy2.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import org.hibernate.annotations.Checks;
 import org.hibernate.annotations.CreationTimestamp;
+import org.locationtech.jts.geom.Point;
+import org.springframework.beans.factory.annotation.Value;
+
 
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name="users",
         uniqueConstraints = {
         @UniqueConstraint(name="unique_email",columnNames = {"email"})
@@ -32,70 +42,14 @@ public class Users {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDate createdAt;
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public byte[] getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(byte[] profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSurName() {
-        return surName;
-    }
-
-    public void setSurName(String surName) {
-        this.surName = surName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private double latitude;
+    private double longitude;
+    @Column(columnDefinition = "POINT SRID 4326",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Point location;
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    Worker worker;
 
 
 }

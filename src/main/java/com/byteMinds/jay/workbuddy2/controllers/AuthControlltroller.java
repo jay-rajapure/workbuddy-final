@@ -4,6 +4,7 @@ import com.byteMinds.jay.workbuddy2.Dto.request.LoginRequest;
 import com.byteMinds.jay.workbuddy2.Dto.response.SimpleResponse;
 import com.byteMinds.jay.workbuddy2.Dto.response.UsersResponse;
 import com.byteMinds.jay.workbuddy2.Services.UserService;
+import com.byteMinds.jay.workbuddy2.Services.implementations.LocationServiceImpl;
 import com.byteMinds.jay.workbuddy2.configs.JwtProvider;
 import com.byteMinds.jay.workbuddy2.models.Customer;
 import com.byteMinds.jay.workbuddy2.models.Post;
@@ -12,6 +13,9 @@ import com.byteMinds.jay.workbuddy2.models.Users;
 import com.byteMinds.jay.workbuddy2.repositories.CustomerRepository;
 import com.byteMinds.jay.workbuddy2.repositories.UsersRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +32,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +51,7 @@ public class AuthControlltroller {
     UserService userService;
    @Autowired
    AuthenticationManager authenticationManager;
+
 
 
 
@@ -69,9 +75,13 @@ public class AuthControlltroller {
         }
         user.setProfilePicture(file.getBytes());
         user.setPassword(passwordEncoder.encode(password));
-
+        Point location = LocationServiceImpl.createJTSPoint(
+                user.getLongitude(),user.getLatitude()
+        );
+        user.setLocation(location);
 
         Users createdUser  = usersRepository.save(user);
+
         List<GrantedAuthority>  authorities =new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.toString()));
 
